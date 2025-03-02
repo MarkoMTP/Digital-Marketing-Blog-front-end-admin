@@ -23,7 +23,7 @@ function RegisterForm() {
     } catch (error) {
       console.log(error);
 
-      navigate("/errorRegistration", {
+      navigate("/error", {
         state: {
           error: error.response?.data,
         },

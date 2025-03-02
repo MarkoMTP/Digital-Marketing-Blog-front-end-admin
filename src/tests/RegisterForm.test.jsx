@@ -27,10 +27,6 @@ describe("Register Form", () => {
   });
 
   it("Simulates a user inserting data,submiting it and geting success from server", async () => {
-    api.post.mockResolvedValueOnce({
-      data: { message: "Registration Success" },
-    });
-
     render(
       <MemoryRouter initialEntries={["/register"]}>
         <Routes>
@@ -79,7 +75,7 @@ describe("Register Form", () => {
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/register" element={<RegisterForm />} />
-          <Route path="/errorRegistration" element={<ErrorPage />} />
+          <Route path="/error" element={<ErrorPage />} />
         </Routes>
       </MemoryRouter>
     );
