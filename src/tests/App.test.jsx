@@ -43,6 +43,6 @@ describe("Homepage", () => {
     await act(async () => {
       await userEvent.click(screen.getByRole("button", { name: /register/i }));
     });
-    expect(screen.getByText("Register Form")).toBeInTheDocument();
+    expect(screen.getByText("Register")).toBeInTheDocument();
   });
 });
