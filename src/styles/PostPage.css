@@ -1,0 +1,66 @@
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff; /* Lighter background for the content */
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  color: #333; /* Dark text for contrast */
+}
+
+/* Title */
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333; /* Dark color for visibility */
+  margin-bottom: 15px;
+}
+
+/* Content */
+.content {
+  font-size: 18px;
+  color: #555; /* Darker text for readability */
+  margin-bottom: 20px;
+}
+
+/* Comments section title */
+.commentsTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333; /* Dark color for visibility */
+  margin-bottom: 15px;
+}
+
+/* No comments text */
+.noComments {
+  font-style: italic;
+  color: #777;
+}
+
+/* Go back button */
+.goBackButton {
+  margin-top: 20px;
+  padding: 12px 25px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s ease;
+}
+
+.goBackButton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Body background color to blue gradient */
+body {
+  background: linear-gradient(
+    135deg,
+    #1e3c72,
+    #2a5298
+  ); /* Blue gradient for the body */
+  color: #fff; /* White text for other areas of the body */
+}
