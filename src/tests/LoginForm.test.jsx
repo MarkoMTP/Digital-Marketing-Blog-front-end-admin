@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import App from "../components/App";
 import LoginForm from "../components/LoginForm";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import api from "../api";
 import userEvent from "@testing-library/user-event";
@@ -46,14 +46,16 @@ describe("Login Form", () => {
 
     await userEvent.type(screen.getByPlaceholderText(/password/i), "12345678");
 
-    await act(async () => {
-      await userEvent.click(screen.getByRole("button", { name: /login/i }));
-    });
-    screen.debug();
+    await userEvent.click(screen.getByRole("button", { name: /login/i }));
 
-    expect(screen.getByText(/User Logged In/i)).toBeInTheDocument();
+    screen.debug();
+    await waitFor(() => {
+      expect(screen.getByText(/Latest Posts/i)).toBeInTheDocument();
+    });
   });
+
   it("Simulates user inserting data and having no token received error", async () => {
+    // Use mockRejectedValueOnce to simulate an error scenario
     api.post.mockResolvedValueOnce({
       data: {}, // Mock response without the token field to trigger the error path
     });
@@ -79,10 +81,13 @@ describe("Login Form", () => {
     await act(async () => {
       await userEvent.click(screen.getByRole("button", { name: /login/i }));
     });
-    screen.debug();
 
-    expect(screen.getByText(/No token received/i)).toBeInTheDocument();
+    await waitFor(() => {
+      // Expect error message
+      expect(screen.getByText(/No token received/i)).toBeInTheDocument();
+    });
   });
+
   it("Simulates user inserting invalid password and getting error", async () => {
     // Mock the API call to return an error
     api.post.mockRejectedValueOnce({
@@ -112,7 +117,7 @@ describe("Login Form", () => {
       screen.getByPlaceholderText(/email/i),
       "test@example.com"
     );
-    await userEvent.type(screen.getByPlaceholderText("Password"), "mypassw");
+    await userEvent.type(screen.getByPlaceholderText(/password/i), "mypassw");
 
     // Click the login button
     await act(async () => {
