@@ -1,30 +1,29 @@
 import api from "../api";
 
-const fetchPosts = async (setPosts, setError, setLoading) => {
+const deletePostHandler = (postId, setError, setLoading, navigate) => {
   try {
     const token = localStorage.getItem("token");
-
     if (!token) {
-      setError("No token found. Please log in.");
+      setError("No Token Found");
       setLoading(false);
-      return;
     }
 
-    const response = await api.get("/posts", {
+    api.delete(`/posts/${postId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    setPosts(response.data);
+    console.log("post deleted successfully");
+    navigate("/posts");
   } catch (err) {
     setError(
       err.response?.data?.message ||
-        "Something went wrong with fetching of posts"
+        "Something went wrong with the deletion of the post"
     );
   } finally {
     setLoading(false);
   }
 };
 
-export default fetchPosts;
+export default deletePostHandler;

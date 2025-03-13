@@ -29,6 +29,22 @@ describe("Login Form", () => {
       data: { token: "12345567" },
     });
 
+    api.get.mockResolvedValueOnce({
+      data: [
+        {
+          id: 1,
+          title: "My First Post",
+          createdAt: "2024-03-05T10:00:00Z",
+          author: { name: "John Doe" },
+        },
+        {
+          id: 2,
+          title: "Another Post",
+          createdAt: "2024-03-04T15:30:00Z",
+          author: { name: "Jane Smith" },
+        },
+      ],
+    });
     render(
       <MemoryRouter initialEntries={["/login"]}>
         <Routes>
@@ -48,9 +64,8 @@ describe("Login Form", () => {
 
     await userEvent.click(screen.getByRole("button", { name: /login/i }));
 
-    screen.debug();
     await waitFor(() => {
-      expect(screen.getByText(/Latest Posts/i)).toBeInTheDocument();
+      expect(screen.getByText(/Latest Post/i)).toBeInTheDocument();
     });
   });
 

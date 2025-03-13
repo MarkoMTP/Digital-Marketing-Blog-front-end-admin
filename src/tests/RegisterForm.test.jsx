@@ -21,7 +21,6 @@ describe("Register Form", () => {
         </Routes>
       </MemoryRouter>
     );
-    screen.debug();
 
     expect(screen.getByText("Register")).toBeInTheDocument();
   });
@@ -55,7 +54,6 @@ describe("Register Form", () => {
     await act(async () => {
       await userEvent.click(screen.getByRole("button", { name: /submit/i }));
     });
-    screen.debug();
     expect(screen.getByText(/User Registered/i)).toBeInTheDocument();
   });
   it("Simulates a user inserting invalid password and getting error", async () => {
@@ -94,7 +92,6 @@ describe("Register Form", () => {
     await act(async () => {
       await userEvent.click(screen.getByRole("button", { name: /submit/i }));
     });
-    screen.debug();
 
     expect(
       screen.getByText(/password must be at least 8 characters long./i)

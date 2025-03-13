@@ -1,6 +1,8 @@
 import App from "./App";
 import ErrorPage from "./ErrorPage";
 import LoginForm from "./LoginForm";
+import NewCommentForm from "./NewCommentForm";
+import PostPage from "./PostPage";
 import PostsPage from "./PostsPage";
 import RegisterForm from "./RegisterForm";
 import RegisterSuccess from "./RegSuccess";
@@ -29,6 +31,10 @@ const routes = [
   {
     path: "/posts",
     element: <PostsPage />,
+  },
+  {
+    path: "/posts/:postId",
+    element: <PostPage />,
   },
 ];
 
