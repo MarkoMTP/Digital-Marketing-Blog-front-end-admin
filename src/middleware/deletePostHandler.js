@@ -1,29 +1,30 @@
 import api from "../api";
 
-const deletePostHandler = (postId, setError, setLoading, navigate) => {
+// Handle delete post
+const handleDeletePost = async (userId, post, setError, navigate) => {
+  // Ensure the user is the author before allowing to delete
+  if (!userId || userId !== post.authorId) {
+    setError("You are not authorized to delete this post");
+    return;
+  }
+
   try {
     const token = localStorage.getItem("token");
     if (!token) {
       setError("No Token Found");
-      setLoading(false);
+      return;
     }
 
-    api.delete(`/posts/${postId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    await api.delete(`/posts/${post.id}`, {
+      headers: { Authorization: `Bearer ${token}` },
     });
 
-    console.log("post deleted successfully");
+    // Navigate to the posts page after successful deletion
     navigate("/posts");
-  } catch (err) {
-    setError(
-      err.response?.data?.message ||
-        "Something went wrong with the deletion of the post"
-    );
-  } finally {
-    setLoading(false);
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    setError("An error occurred while deleting the post.");
   }
 };
 
-export default deletePostHandler;
+export default handleDeletePost;

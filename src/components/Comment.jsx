@@ -1,13 +1,14 @@
-import { useNavigate, useParams } from "react-router-dom";
+import handleDeleteComment from "../middleware/deleteCommentHandler";
 
-function Comment({ commentId, content, author, createdAt }) {
-  const navigate = useNavigate();
-  const { id } = useParams();
-
-  const onDelete = async (commentId) => {
-    navigate(`/posts/${id}/comments/${commentId}`);
-  };
-
+function Comment({
+  commentId,
+  postId,
+  content,
+  author,
+  createdAt,
+  setError,
+  setPost,
+}) {
   return (
     <div style={styles.comment}>
       <p style={styles.content}>{content}</p>
@@ -22,9 +23,11 @@ function Comment({ commentId, content, author, createdAt }) {
           onMouseOut={(e) =>
             (e.target.style.background = styles.deleteButton.background)
           }
-          onClick={() => onDelete(commentId)}
+          onClick={() =>
+            handleDeleteComment(commentId, postId, setError, setPost)
+          }
         >
-          Delete
+          Delete Comment
         </button>
       </div>
     </div>

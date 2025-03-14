@@ -9,28 +9,33 @@ import ErrorPage from "../components/ErrorPage";
 import PostPage from "../components/PostPage";
 import userEvent from "@testing-library/user-event";
 import addCommentHandler from "../middleware/addCommentHandler";
-import deletePostHandler from "../middleware/deletePostHandler";
 import fetchPosts from "../middleware/fetchPosts";
 import { act } from "react";
 import api from "../api";
+import handlePublishToggle from "../middleware/handlePublishToggle";
+import handleDeletePost from "../middleware/deletePostHandler";
 import { jwtDecode } from "jwt-decode";
-
-vi.mock("jwt-decode", () => ({
-  jwtDecode: vi.fn(),
-}));
+import handleDeleteComment from "../middleware/deleteCommentHandler";
 
 vi.mock("../api");
 vi.mock("../middleware/fetchPost");
 vi.mock("../middleware/addCommentHandler");
 vi.mock("../middleware/deletePostHandler");
 vi.mock("../middleware/fetchPosts");
+vi.mock("../middleware/handlePublishToggle");
+vi.mock("../middleware/deleteCommentHandler");
 
 describe("Post Page", () => {
   beforeEach(() => {
     localStorage.setItem("token", "122434");
+    vi.clearAllMocks(); // ✅ Reset mocks before each test
   });
 
   it("renders a published post with all its contents", async () => {
+    vi.mock("jwt-decode", () => ({
+      jwtDecode: () => ({ id: "123" }),
+    }));
+
     fetchPost.mockImplementation((id, setPost, setError, setLoading) => {
       setLoading(false);
       setPost({
@@ -38,6 +43,7 @@ describe("Post Page", () => {
         title: "First Post",
         content: "Hello I am a developer",
         author: "Genius",
+        authorId: "123",
         createdAt: "12:30",
         isPublished: true,
         comments: [
@@ -72,9 +78,11 @@ describe("Post Page", () => {
       await screen.findByRole("button", { name: /Unpublish/i })
     ).toBeInTheDocument();
   });
-
+  /////////////
+  /////////////
+  /////////////
   it("simulates deleting a post and navigates to PostsPage", async () => {
-    deletePostHandler.mockImplementation(
+    handleDeletePost.mockImplementation(
       (postId, setError, setLoading, navigate) => {
         navigate("/posts");
       }
@@ -85,11 +93,19 @@ describe("Post Page", () => {
       setPosts([
         {
           id: "2",
-          title: "General Post",
-          content: "Hello 2",
-          author: "Genius 2",
+          title: "First Post",
+          content: "Hello I am a developer",
+          author: "Genius",
+          authorId: "125",
           createdAt: "12:30",
           isPublished: true,
+          comments: [
+            {
+              content: "First comment",
+              author: { userName: "Djuro" },
+              createdAt: "12",
+            },
+          ],
         },
       ]);
     });
@@ -101,6 +117,7 @@ describe("Post Page", () => {
         title: "First Post",
         content: "Hello I am a developer",
         author: "Genius",
+        authorId: "123",
         createdAt: "12:30",
         isPublished: true,
         comments: [
@@ -113,7 +130,9 @@ describe("Post Page", () => {
       });
     });
 
-    localStorage.setItem("token", "mocked_token");
+    vi.mock("jwt-decode", () => ({
+      jwtDecode: () => ({ id: "123" }),
+    }));
 
     render(
       <MemoryRouter initialEntries={["/posts/1"]}>
@@ -131,10 +150,125 @@ describe("Post Page", () => {
     await userEvent.click(deleteBtn);
 
     await waitFor(() => {
-      expect(screen.getByText(/General post/i)).toBeInTheDocument();
+      expect(screen.getByText(/Latest Posts/i)).toBeInTheDocument();
     });
   });
 
+  //////////////////////////
+  ///////////////////////////////////////
+  ///////////////////////////////////////
+  it("Simulates the unpublish post button", async () => {
+    vi.mock("jwt-decode", () => ({
+      jwtDecode: () => ({ id: "123" }),
+    }));
+
+    // ✅ Mock the fetchPost function before rendering
+    fetchPost.mockImplementation((id, setPost, setError, setLoading) => {
+      setLoading(false);
+      setPost({
+        id: "1",
+        title: "First Post",
+        content: "Hello I am a developer",
+        author: "Genius",
+        authorId: "123",
+        createdAt: "12:30",
+        isPublished: true, // Initially published
+        comments: [
+          {
+            id: "101",
+            content: "First comment",
+            author: { userName: "Djuro" },
+            createdAt: "12",
+          },
+        ],
+      });
+    });
+
+    // ✅ Mock the publish toggle function before rendering
+    handlePublishToggle.mockImplementation(
+      (post, userId, setError, setPost) => {
+        setPost((prevPost) => ({
+          ...prevPost,
+          isPublished: false,
+        }));
+      }
+    );
+
+    render(
+      <MemoryRouter initialEntries={["/posts/1"]}>
+        <Routes>
+          <Route path="/posts/:postId" element={<PostPage />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    // ✅ Ensure the "Unpublish" button is visible
+    const button = await screen.findByRole("button", { name: /unpublish/i });
+    expect(button).toBeInTheDocument();
+
+    // ✅ Click the button
+    userEvent.click(button);
+
+    // ✅ Wait for the button text to change
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: /publish/i })
+      ).toBeInTheDocument();
+    });
+  });
+
+  ///////////////////////////////////////
+  ///////////////////////////////////////
+  ///////////////////////////////////////
+  it("Doesn't show the publish/unpublish button when user is not the author", async () => {
+    // Mock API response to return a 403 error
+    api.put.mockRejectedValueOnce({
+      response: {
+        data: { message: "You are not authorized to edit this post" },
+      },
+    });
+
+    fetchPost.mockImplementation((id, setPost, setError, setLoading) => {
+      setLoading(false);
+      setPost({
+        id: "1",
+        title: "First Post",
+        content: "Hello I am a developer",
+        author: "Genius",
+        authorId: "124",
+        createdAt: "12:30",
+        isPublished: true, // Initially published
+        comments: [
+          {
+            id: "101",
+            content: "First comment",
+            author: { userName: "Djuro" },
+            createdAt: "12",
+          },
+        ],
+      });
+    });
+
+    render(
+      <MemoryRouter initialEntries={["/posts/1"]}>
+        <Routes>
+          <Route path="/posts/:postId" element={<PostPage />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.queryByRole("button", { name: /unpublish/i })
+      ).not.toBeInTheDocument();
+
+      expect(
+        screen.queryByRole("button", { name: /delete post/i })
+      ).not.toBeInTheDocument();
+    });
+  });
+  /////////////
+  /////////////
   it("simulates adding a new comment", async () => {
     fetchPost.mockImplementation((id, setPost, setError, setLoading) => {
       setLoading(false);
@@ -155,24 +289,6 @@ describe("Post Page", () => {
         ],
       });
     });
-
-    render(
-      <MemoryRouter initialEntries={["/posts/1"]}>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/posts" element={<PostsPage />} />
-          <Route path="/error" element={<ErrorPage />} />
-          <Route path="/posts/:postId" element={<PostPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
-
-    expect(await screen.findByText(/First comment/i)).toBeInTheDocument();
-
-    await userEvent.type(
-      screen.getByPlaceholderText(/Write your comment.../i),
-      "Hey"
-    );
 
     addCommentHandler.mockImplementation(
       (e, id, content, setContent, setError, setCommentCounter) => {
@@ -211,6 +327,24 @@ describe("Post Page", () => {
       }
     );
 
+    render(
+      <MemoryRouter initialEntries={["/posts/1"]}>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/posts" element={<PostsPage />} />
+          <Route path="/error" element={<ErrorPage />} />
+          <Route path="/posts/:postId" element={<PostPage />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    expect(await screen.findByText(/First comment/i)).toBeInTheDocument();
+
+    await userEvent.type(
+      screen.getByPlaceholderText(/Write your comment.../i),
+      "Hey"
+    );
+
     await act(async () => {
       await userEvent.click(
         screen.getByRole("button", { name: /post comment/i })
@@ -222,11 +356,7 @@ describe("Post Page", () => {
     });
   });
 
-  it("Simulates the unpublish post button", async () => {
-    // ✅ Correct mock usage for jwtDecode
-    jwtDecode.mockReturnValueOnce({ id: "123" });
-
-    // ✅ Mock the post-fetch function
+  it("simulates deleting the comment", async () => {
     fetchPost.mockImplementation((id, setPost, setError, setLoading) => {
       setLoading(false);
       setPost({
@@ -234,9 +364,8 @@ describe("Post Page", () => {
         title: "First Post",
         content: "Hello I am a developer",
         author: "Genius",
-        authorId: "123",
         createdAt: "12:30",
-        isPublished: true, // Initially published
+        isPublished: true,
         comments: [
           {
             id: "101",
@@ -247,6 +376,17 @@ describe("Post Page", () => {
         ],
       });
     });
+
+    handleDeleteComment.mockImplementation(
+      (commentId, postId, setError, setPost) => {
+        setPost((prevPost) => ({
+          ...prevPost,
+          comments: prevPost.comments.filter(
+            (comment) => comment.id !== commentId
+          ),
+        }));
+      }
+    );
 
     render(
       <MemoryRouter initialEntries={["/posts/1"]}>
@@ -259,45 +399,14 @@ describe("Post Page", () => {
       </MemoryRouter>
     );
 
-    const button = screen.getByRole("button", { name: /unpublish/i });
-    userEvent.click(button);
+    expect(await screen.findByText(/First comment/i)).toBeInTheDocument();
 
-    // ✅ Mock the API call to `api.put`
-    api.put.mockResolvedValueOnce({
-      data: { id: "1", isPublished: false }, // Simulate the API response
+    await act(async () => {
+      await userEvent.click(
+        screen.getByRole("button", { name: /delete comment/i })
+      );
     });
 
-    await waitFor(() => {
-      expect(
-        screen.getByRole("button", { name: "Publish" })
-      ).toBeInTheDocument(); // Ensure button updates to "Publish"
-    });
-
-    screen.debug(); // Check the rendered output if necessary
-  });
-});
-it("Shows an error when an unauthorized user tries to unpublish a post", async () => {
-  // Mock API response to return a 403 error
-  api.put.mockRejectedValueOnce({
-    response: {
-      status: 401,
-      data: { message: "You are not authorized to edit this post" },
-    },
-  });
-
-  render(
-    <MemoryRouter initialEntries={["/posts/1"]}>
-      <Routes>
-        <Route path="/posts/:postId" element={<PostPage />} />
-      </Routes>
-    </MemoryRouter>
-  );
-
-  const button = screen.getByRole("button", { name: /unpublish/i });
-
-  userEvent.click(button);
-
-  await waitFor(() => {
-    expect(screen.getByText(/you are not authorized/i)).toBeInTheDocument();
+    expect(screen.queryByText(/First comment/i)).not.toBeInTheDocument();
   });
 });

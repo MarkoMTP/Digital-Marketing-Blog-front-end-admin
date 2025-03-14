@@ -4,9 +4,9 @@ import Comment from "./Comment";
 import NewCommentForm from "./NewCommentForm";
 import fetchPost from "../middleware/fetchPost";
 import "../styles/PostPage.css"; // Import the CSS file
-import deletePostHandler from "../middleware/deletePostHandler";
-import api from "../api";
 import { jwtDecode } from "jwt-decode";
+import handlePublishToggle from "../middleware/handlePublishToggle";
+import handleDeletePost from "../middleware/deletePostHandler";
 
 function PostPage() {
   const [post, setPost] = useState();
@@ -34,81 +34,9 @@ function PostPage() {
     fetchPost(postId, setPost, setError, setLoading);
   }, [postId, commentCounter]);
 
-  // If the post is still loading, show loading message
   if (loading) return <p>Loading posts...</p>;
-  // If there is an error, show error message
   if (error) return <p>Error: {error}</p>;
-  // If the post is not found, show post not found message
   if (!post) return <p>Post not found</p>;
-
-  // Handle publish/unpublish post
-  const handlePublishToggle = async () => {
-    let newPublishStatus = !post.isPublished;
-
-    // Ensure the user is the author before allowing to publish/unpublish
-    if (!userId || userId !== post.authorId) {
-      setError("You are not authorized to edit this post");
-      return;
-    }
-
-    try {
-      // Make the API call to update the post
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("No Token Found");
-        return;
-      }
-
-      await api.put(
-        `/posts/${post.id}`,
-        {
-          title: post.title,
-          content: post.content,
-          author: post.author,
-          isPublished: newPublishStatus,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      // Update the post state manually
-      setPost((prevPost) => ({
-        ...prevPost,
-        isPublished: newPublishStatus,
-      }));
-    } catch (error) {
-      console.error("Error updating publish status:", error);
-      setError("An error occurred while updating the post.");
-    }
-  };
-
-  // Handle delete post
-  const handleDeletePost = async () => {
-    // Ensure the user is the author before allowing to delete
-    if (!userId || userId !== post.authorId) {
-      setError("You are not authorized to delete this post");
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("No Token Found");
-        return;
-      }
-
-      await api.delete(`/posts/${post.id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      // Navigate to the posts page after successful deletion
-      navigate("/posts");
-    } catch (error) {
-      console.error("Error deleting post:", error);
-      setError("An error occurred while deleting the post.");
-    }
-  };
 
   return (
     <div className="container">
@@ -118,14 +46,20 @@ function PostPage() {
 
       {/* Only show the Delete button if the user is the author */}
       {userId === post.authorId && (
-        <button onClick={handleDeletePost} className="goBackButton">
+        <button
+          onClick={() => handleDeletePost(userId, post, setError, navigate)}
+          className="goBackButton"
+        >
           Delete Post
         </button>
       )}
 
       {/* Only show the Publish/Unpublish button if the user is the author */}
       {userId === post.authorId && (
-        <button onClick={handlePublishToggle} className="publishBtn">
+        <button
+          onClick={() => handlePublishToggle(post, userId, setError, setPost)}
+          className="publishBtn"
+        >
           {post.isPublished ? "Unpublish" : "Publish"}
         </button>
       )}
@@ -141,9 +75,12 @@ function PostPage() {
           <Comment
             key={comment.id}
             commentId={comment.id}
+            postId={post.id}
             content={comment.content}
             author={comment.author.userName}
             createdAt={comment.createdAt}
+            setError={setError}
+            setPost={setPost}
           />
         ))
       ) : (
