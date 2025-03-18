@@ -1,4 +1,5 @@
 import App from "./App";
+import EditPostForm from "./EditPostForm";
 import ErrorPage from "./ErrorPage";
 import LoginForm from "./LoginForm";
 import NewCommentForm from "./NewCommentForm";
@@ -35,6 +36,10 @@ const routes = [
   {
     path: "/posts/:postId",
     element: <PostPage />,
+  },
+  {
+    path: "/editPostForm/:postId",
+    element: <EditPostForm />,
   },
 ];
 
