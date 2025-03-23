@@ -8,6 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import handlePublishToggle from "../middleware/handlePublishToggle";
 import handleDeletePost from "../middleware/deletePostHandler";
 import { PostContext } from "../context/PostContext";
+import api from "../api";
 
 function PostPage() {
   const {
@@ -38,13 +39,19 @@ function PostPage() {
 
   // Fetch the post when the page loads, but only if it's not already in context
   useEffect(() => {
-    if (!post) {
-      // Only fetch if there's no post in the context
-      fetchPost(postId, setPost, setError, setLoading);
-    } else {
-      setLoading(false); // If post is already available, set loading to false
-    }
-  }, [postId, commentCounter, postUpdateCounter, post, setPost, setError]);
+    // Only fetch the new post if the current post is not the one being requested
+    setLoading(true);
+    const fetchPostData = async () => {
+      if (!post || post.id !== postId) {
+        // Fetch the post if it's not already in context or the post doesn't match the current postId
+        await fetchPost(postId, setPost, setError, setLoading);
+      } else {
+        setLoading(false); // Otherwise, just set loading to false if the post is already in context
+      }
+    };
+
+    fetchPostData();
+  }, [postId, post, postUpdateCounter, setPost, setError]);
 
   if (loading) return <p>Loading posts...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -86,7 +93,11 @@ function PostPage() {
       {/* Display any errors */}
       {error && <p className="errorMessage">{error}</p>}
 
-      <NewCommentForm id={post.id} setCommentCounter={setCommentCounter} />
+      <NewCommentForm
+        id={post.id}
+        setCommentCounter={setCommentCounter}
+        setPost={setPost}
+      />
 
       <h2 className="commentsTitle">Comments:</h2>
       {post.comments && post.comments.length > 0 ? (
