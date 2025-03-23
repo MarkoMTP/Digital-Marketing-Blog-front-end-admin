@@ -1,5 +1,3 @@
-import handleDeleteComment from "../middleware/deleteCommentHandler";
-
 function Comment({
   commentId,
   postId,
@@ -8,6 +6,7 @@ function Comment({
   createdAt,
   setError,
   setPost,
+  handleDeleteComment,
 }) {
   return (
     <div style={styles.comment}>

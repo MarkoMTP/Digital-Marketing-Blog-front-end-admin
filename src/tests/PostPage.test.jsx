@@ -17,8 +17,10 @@ import EditPostForm from "../components/EditPostForm";
 import { PostContext } from "../context/PostContext";
 import PostProvider from "../components/PostProvider";
 import handleUpdatePost from "../middleware/handleUpdatePost";
+import handleDeleteComment from "../middleware/deleteCommentHandler";
 
 vi.mock("../api");
+vi.mock("../middleware/deleteCommentHandler");
 vi.mock("../middleware/fetchPost");
 vi.mock("../middleware/addCommentHandler");
 vi.mock("../middleware/deletePostHandler");
@@ -435,6 +437,56 @@ describe("Post Page", () => {
       await userEvent.click(submitBtn);
 
       expect(screen.getByText("Second comment")).toBeInTheDocument();
+    });
+
+    it("Delete a comment successfully", async () => {
+      fetchPost.mockImplementation((id, setPost, setError, setLoading) => {
+        setLoading(false);
+        setPost({
+          id: "1",
+          title: "First Post",
+          content: "Hello I am a developer",
+          author: "Genius",
+          createdAt: "12:30",
+          isPublished: true,
+          comments: [
+            {
+              id: "101",
+              content: "First comment",
+              author: { userName: "Djuro" },
+              createdAt: "12",
+            },
+          ],
+        });
+      });
+
+      handleDeleteComment.mockImplementation(
+        (commentId, postId, setError, setPost) => {
+          setPost((prevPost) => ({
+            ...prevPost,
+            comments: [],
+          }));
+        }
+      );
+      render(
+        <MemoryRouter initialEntries={["/posts/1"]}>
+          <PostProvider>
+            <Routes>
+              <Route path="/posts/:postId" element={<PostPage />} />
+            </Routes>
+          </PostProvider>
+        </MemoryRouter>
+      );
+
+      expect(screen.getByText("First comment")).toBeInTheDocument();
+      const deleteButton = screen.getByRole("button", {
+        name: /Delete comment/i,
+      });
+
+      await userEvent.click(deleteButton);
+      await waitFor(() => {
+        expect(screen.getByText(/No comments yet./i)).toBeInTheDocument();
+      });
     });
   });
 });

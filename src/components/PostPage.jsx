@@ -8,7 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import handlePublishToggle from "../middleware/handlePublishToggle";
 import handleDeletePost from "../middleware/deletePostHandler";
 import { PostContext } from "../context/PostContext";
-import api from "../api";
+import handleDeleteComment from "../middleware/deleteCommentHandler";
 
 function PostPage() {
   const {
@@ -51,7 +51,7 @@ function PostPage() {
     };
 
     fetchPostData();
-  }, [postId, post, postUpdateCounter, setPost, setError]);
+  }, [postId, post, postUpdateCounter, commentCounter, setPost, setError]);
 
   if (loading) return <p>Loading posts...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -111,6 +111,7 @@ function PostPage() {
             createdAt={comment.createdAt}
             setError={setError}
             setPost={setPost}
+            handleDeleteComment={handleDeleteComment}
           />
         ))
       ) : (
