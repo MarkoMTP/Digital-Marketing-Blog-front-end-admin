@@ -7,7 +7,8 @@ const addCommentHandler = async (
   setContent,
   setError,
   setCommentCounter,
-  navigate
+  navigate,
+  setPost
 ) => {
   e.preventDefault();
   try {
@@ -17,17 +18,21 @@ const addCommentHandler = async (
       return;
     }
 
-    const response = await api.post(
+    await api.post(
       `/posts/${id}/comments`,
       { content }, // Request body (comment content)
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
+    const updatedPost = api.get(`/posts/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    setPost(updatedPost.data);
     setContent(""); // Clear the input after submitting
     setError(null);
     setCommentCounter((prevCounter) => prevCounter + 1);
     navigate(`/posts/${id}`);
-    console.log(response.data);
   } catch (err) {
     setError(err.response?.data?.message || "Failed to add comment.");
   }

@@ -3,6 +3,7 @@ import EditPostForm from "./EditPostForm";
 import ErrorPage from "./ErrorPage";
 import LoginForm from "./LoginForm";
 import NewCommentForm from "./NewCommentForm";
+import NewPostForm from "./NewPostForm";
 import PostPage from "./PostPage";
 import PostsPage from "./PostsPage";
 import RegisterForm from "./RegisterForm";
@@ -40,6 +41,14 @@ const routes = [
   {
     path: "/editPostForm/:postId",
     element: <EditPostForm />,
+  },
+  {
+    path: "/homepage",
+    element: <EditPostForm />,
+  },
+  {
+    path: "/newPostForm",
+    element: <NewPostForm />,
   },
 ];
 

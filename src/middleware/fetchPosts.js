@@ -15,6 +15,7 @@ const fetchPosts = async (setPosts, setError, setLoading) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    setLoading(false);
 
     setPosts(response.data);
   } catch (err) {

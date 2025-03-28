@@ -8,6 +8,7 @@ import userEvent from "@testing-library/user-event";
 import { act } from "react";
 import PostsPage from "../components/PostsPage";
 import ErrorPage from "../components/ErrorPage";
+import PostProvider from "../components/PostProvider";
 vi.mock("../api");
 
 describe("Login Form", () => {
@@ -46,13 +47,15 @@ describe("Login Form", () => {
       ],
     });
     render(
-      <MemoryRouter initialEntries={["/login"]}>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/posts" element={<PostsPage />} />
-        </Routes>
-      </MemoryRouter>
+      <PostProvider>
+        <MemoryRouter initialEntries={["/login"]}>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/posts" element={<PostsPage />} />
+          </Routes>
+        </MemoryRouter>
+      </PostProvider>
     );
 
     await userEvent.type(

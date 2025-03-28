@@ -3,7 +3,7 @@ import addCommentHandler from "../middleware/addCommentHandler";
 import "../styles/NewCommentForm.css"; // Import the CSS file
 import { useNavigate } from "react-router-dom";
 
-function NewCommentForm({ id, setCommentCounter }) {
+function NewCommentForm({ id, setCommentCounter, setPost }) {
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -20,7 +20,8 @@ function NewCommentForm({ id, setCommentCounter }) {
             setContent,
             setError,
             setCommentCounter,
-            navigate
+            navigate,
+            setPost
           )
         }
       >

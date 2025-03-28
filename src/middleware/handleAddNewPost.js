@@ -7,6 +7,7 @@ export const handleAddNewPost = async (
   setPosts,
   setError,
   setLoading,
+  setNewPostCounter,
   navigate
 ) => {
   try {
@@ -27,6 +28,7 @@ export const handleAddNewPost = async (
 
     if (response?.data) {
       setPosts((prevPosts) => [...prevPosts, response.data]);
+      setNewPostCounter((prev) => prev + 1);
       navigate("/posts");
     } else {
       console.error("Error while creating post");

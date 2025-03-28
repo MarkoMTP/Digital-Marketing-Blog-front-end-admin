@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { use, useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PostContext } from "../context/PostContext";
 import { handleAddNewPost } from "../middleware/handleAddNewPost";
-
-function NewPostForm({ setPosts, setError, setLoading }) {
+function NewPostForm() {
+  const { setPosts, setError, setLoading, setNewPostCounter } =
+    useContext(PostContext); // use context
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isPublished, setIsPublished] = useState(false);
@@ -13,7 +14,7 @@ function NewPostForm({ setPosts, setError, setLoading }) {
     <div className="container">
       <h2 className="heading">New Post</h2>
       <form
-        data-testid="edit-post-form"
+        data-testid="upload-post-form"
         onSubmit={(e) => {
           e.preventDefault();
           handleAddNewPost(
@@ -23,6 +24,7 @@ function NewPostForm({ setPosts, setError, setLoading }) {
             setPosts,
             setError,
             setLoading,
+            setNewPostCounter,
             navigate
           );
         }}

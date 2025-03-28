@@ -357,7 +357,6 @@ describe("Post Page", () => {
       // Verify that the Save Changes button is visible.
       const form = screen.getByTestId("edit-post-form");
       fireEvent.submit(form);
-      screen.debug();
 
       // Check that the updated post details are rendered.
       expect(screen.getByText(/hey/i)).toBeInTheDocument();
