@@ -7,7 +7,7 @@ import ErrorPage from "../components/ErrorPage";
 import App from "../components/App";
 import fetchPosts from "../middleware/fetchPosts";
 import userEvent from "@testing-library/user-event";
-import { act } from "react";
+import { act, use } from "react";
 import PostProvider from "../components/PostProvider";
 import PostPage from "../components/PostPage";
 import { handleAddNewPost } from "../middleware/handleAddNewPost";
@@ -90,21 +90,18 @@ describe("Posts Page", () => {
     expect(screen.getByText(/Person 1/i)).toBeInTheDocument();
   });
 
-  it.only("Simulates adding a new post", async () => {
+  it("Simulates adding a new post", async () => {
     vi.mock("jwt-decode", () => ({
       jwtDecode: () => ({ id: "123" }),
     }));
 
-    const post = {
-      title: "Test Title",
-      content: "Test Content",
-      isPublished: true,
-      author: { userName: "Test User" },
-    };
+    let mockPostList = [];
+
     fetchPosts.mockImplementation((setPosts, setError, setLoading) => {
       setLoading(false);
-      setPosts([post]);
+      setPosts(mockPostList); // Use the updated list instead of resetting it
     });
+
     handleAddNewPost.mockImplementation(
       (
         title,
@@ -113,9 +110,18 @@ describe("Posts Page", () => {
         setPosts,
         setError,
         setLoading,
+        setNewPostCounter,
         navigate
       ) => {
-        setPosts((prevPosts) => [...prevPosts, post]);
+        const newPost = {
+          title,
+          content,
+          isPublished,
+          author: { userName: "Test User" },
+        };
+        mockPostList = [...mockPostList, newPost]; // Update the mock data
+        setPosts(mockPostList);
+        setNewPostCounter((prev) => prev + 1);
         navigate("/posts");
       }
     );
@@ -152,12 +158,10 @@ describe("Posts Page", () => {
     await userEvent.type(titleInput, "Test Title");
     await userEvent.type(contentInput, "Test Content");
     await userEvent.selectOptions(selectPublished, "true");
-
     // Submit the form
-    const form = screen.getByTestId("upload-post-form");
-    fireEvent.submit(form);
-
-    await screen.findByText(/Test Content/i);
-    await screen.findByText(/Test Title/i);
+    fireEvent.submit(screen.getByTestId("upload-post-form"));
+    await waitFor(() =>
+      expect(screen.getByText(/Test Title/i)).toBeInTheDocument()
+    );
   });
 });
