@@ -164,4 +164,32 @@ describe("Posts Page", () => {
       expect(screen.getByText(/Test Title/i)).toBeInTheDocument()
     );
   });
+
+  it("Renders the posts page with posts", async () => {
+    fetchPosts.mockImplementation((setPosts, setError, setLoading) => {
+      setLoading(false);
+      setPosts([]);
+    });
+
+    render(
+      <MemoryRouter initialEntries={["/posts"]}>
+        <PostProvider>
+          <Routes>
+            <Route path="/posts" element={<PostsPage />}></Route>
+          </Routes>
+        </PostProvider>
+      </MemoryRouter>
+    );
+
+    screen.debug();
+    expect(screen.getByText(/Digital Marketing Blog/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Stay ahead with the latest trends, strategies, and tips!"
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /logout/i })).toBeInTheDocument();
+
+    expect(screen.getByText(/No posts yet/i)).toBeInTheDocument();
+  });
 });
