@@ -1,6 +1,6 @@
 import { useState } from "react";
-import addCommentHandler from "../middleware/addCommentHandler";
-import "../styles/NewCommentForm.css"; // Import the CSS file
+import addCommentHandler from "../../middleware/addCommentHandler";
+import "../../styles/NewCommentForm.css"; // Use the updated CSS
 import { useNavigate } from "react-router-dom";
 
 function NewCommentForm({ id, setCommentCounter, setPost }) {

@@ -1,66 +1,146 @@
-.container {
-  max-width: 800px;
+/* Main Post Page Container */
+.postPageContainer {
+  max-width: 900px;
   margin: 40px auto;
-  padding: 30px;
-  background-color: #ffffff; /* Lighter background for the content */
+  padding: 20px;
+  background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  color: #333; /* Dark text for contrast */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
-/* Title */
-.title {
-  font-size: 28px;
+/* Container for Post Content */
+.postContentContainer {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Post Title */
+.postTitle {
+  font-size: 32px;
   font-weight: bold;
-  color: #333; /* Dark color for visibility */
+  color: #2a5298;
   margin-bottom: 15px;
 }
 
-/* Content */
-.content {
+/* Post Content */
+.postText {
   font-size: 18px;
-  color: #555; /* Darker text for readability */
+  color: #555;
+  line-height: 1.6;
+  text-align: justify;
   margin-bottom: 20px;
 }
 
-/* Comments section title */
-.commentsTitle {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333; /* Dark color for visibility */
-  margin-bottom: 15px;
+/* Author Information */
+.authorText {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
 }
 
-/* No comments text */
-.noComments {
-  font-style: italic;
-  color: #777;
-}
-
-/* Go back button */
-.goBackButton {
+/* Action Buttons */
+.actionButtons {
+  display: flex;
+  justify-content: center; /* Center the buttons */
+  gap: 10px; /* Reduced gap */
   margin-top: 20px;
-  padding: 12px 25px;
-  background-color: #007bff;
-  color: white;
-  border: none;
+}
+
+.actionButton {
+  padding: 10px 18px;
+  font-size: 16px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s, transform 0.3s ease;
+  transition: all 0.3s ease;
+  border: none;
+  color: #fff;
 }
 
-.goBackButton:hover {
-  background-color: #0056b3;
+/* Specific Button Styles */
+.deleteButton {
+  background-color: #e74c3c;
+}
+
+.deleteButton:hover {
+  background-color: #c0392b;
   transform: scale(1.05);
 }
 
-/* Body background color to blue gradient */
+.publishButton {
+  background-color: #27ae60;
+}
+
+.publishButton:hover {
+  background-color: #219150;
+  transform: scale(1.05);
+}
+
+.editButton {
+  background-color: #f39c12;
+}
+
+.editButton:hover {
+  background-color: #e67e22;
+  transform: scale(1.05);
+}
+
+/* Comments Section Container */
+.commentsContainer {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+/* Comments Title */
+.commentsTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* No Comments Text */
+.noCommentsText {
+  font-size: 18px;
+  color: #7f8c8d;
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* Back Button */
+.backButton {
+  background-color: #3498db;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.backButton:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+/* Loading and Error Messages */
+.loadingText,
+.errorText {
+  text-align: center;
+  font-size: 18px;
+  color: #e74c3c;
+}
+
+/* Body Background */
 body {
-  background: linear-gradient(
-    135deg,
-    #1e3c72,
-    #2a5298
-  ); /* Blue gradient for the body */
-  color: #fff; /* White text for other areas of the body */
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  font-family: "Poppins", sans-serif;
+  color: #333;
 }

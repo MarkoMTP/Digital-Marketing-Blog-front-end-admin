@@ -8,6 +8,7 @@ const PostProvider = ({ children }) => {
   const [newPostCounter, setNewPostCounter] = useState(0);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [publishedPosts, setPublishedPosts] = useState([]);
 
   return (
     <PostContext.Provider
@@ -24,6 +25,8 @@ const PostProvider = ({ children }) => {
         setPosts,
         loading,
         setLoading,
+        publishedPosts,
+        setPublishedPosts,
       }}
     >
       {children}

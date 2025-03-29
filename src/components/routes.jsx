@@ -1,11 +1,10 @@
 import App from "./App";
-import EditPostForm from "./EditPostForm";
+import EditPostForm from "./Posts/EditPostForm";
 import ErrorPage from "./ErrorPage";
 import LoginForm from "./LoginForm";
-import NewCommentForm from "./NewCommentForm";
-import NewPostForm from "./NewPostForm";
-import PostPage from "./PostPage";
-import PostsPage from "./PostsPage";
+import NewPostForm from "./Posts/NewPostForm";
+import PostPage from "./Posts/PostPage";
+import PostsPage from "./Posts/PostsPage";
 import RegisterForm from "./RegisterForm";
 import RegisterSuccess from "./RegSuccess";
 
