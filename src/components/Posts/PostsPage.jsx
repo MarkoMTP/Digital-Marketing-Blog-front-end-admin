@@ -75,6 +75,12 @@ function PostsPage() {
               <p className="post-author">
                 By {post.author?.userName || "Unknown"}
               </p>
+
+              {post.isPublished === true ? (
+                <p style={{ color: "green" }}>Published</p>
+              ) : (
+                <p style={{ color: "red" }}>Unpublished</p>
+              )}
             </div>
           ))
         ) : (
