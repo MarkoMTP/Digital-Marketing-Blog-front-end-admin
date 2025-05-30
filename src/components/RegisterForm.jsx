@@ -30,6 +30,9 @@ function RegisterForm() {
       });
     }
   };
+  const handleGoBack = () => {
+    navigate("/");
+  };
 
   return (
     <div className="container">
@@ -71,6 +74,20 @@ function RegisterForm() {
           Submit
         </button>
       </form>
+
+      <button
+        onClick={handleGoBack}
+        style={{
+          marginTop: "5px",
+          padding: "12px 22px",
+          cursor: "pointer",
+          background: "red",
+          borderRadius: "10px",
+          border: "0px",
+        }}
+      >
+        Go back
+      </button>
     </div>
   );
 }
