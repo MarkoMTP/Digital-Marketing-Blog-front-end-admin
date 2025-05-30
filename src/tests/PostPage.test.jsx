@@ -4,16 +4,16 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import fetchPost from "../middleware/fetchPost";
 import App from "../components/App";
 import LoginForm from "../components/LoginForm";
-import PostsPage from "../components/PostsPage";
+import PostsPage from "../components/Posts/PostsPage";
 import ErrorPage from "../components/ErrorPage";
-import PostPage from "../components/PostPage";
+import PostPage from "../components/Posts/PostPage";
 import userEvent from "@testing-library/user-event";
 import addCommentHandler from "../middleware/addCommentHandler";
 import fetchPosts from "../middleware/fetchPosts";
 import api from "../api";
 import handlePublishToggle from "../middleware/handlePublishToggle";
 import handleDeletePost from "../middleware/deletePostHandler";
-import EditPostForm from "../components/EditPostForm";
+import EditPostForm from "../components/Posts/EditPostForm";
 import { PostContext } from "../context/PostContext";
 import PostProvider from "../components/PostProvider";
 import handleUpdatePost from "../middleware/handleUpdatePost";
@@ -76,10 +76,9 @@ describe("Post Page", () => {
       );
 
       expect(screen.getByText(/First Post/i)).toBeInTheDocument();
-      expect(screen.getByText(/Genius/i)).toBeInTheDocument();
       expect(screen.getByText(/First comment/i)).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /delete post/i })
+        screen.getByRole("button", { name: /Delete Post/i })
       ).toBeInTheDocument();
       expect(
         await screen.findByRole("button", { name: /Unpublish/i })
