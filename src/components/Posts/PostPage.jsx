@@ -60,7 +60,7 @@ function PostPage() {
                 }
                 className="actionButton deleteButton"
               >
-                Delete
+                Delete Post
               </button>
               <button
                 onClick={() =>
