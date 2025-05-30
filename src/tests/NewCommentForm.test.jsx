@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import NewCommentForm from "../components/NewCommentForm";
+import NewCommentForm from "../components/Comments/NewCommentForm";
 import App from "../components/App";
-import PostsPage from "../components/PostsPage";
+import PostsPage from "../components/Posts/PostsPage";
 import ErrorPage from "../components/ErrorPage";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import userEvent from "@testing-library/user-event";

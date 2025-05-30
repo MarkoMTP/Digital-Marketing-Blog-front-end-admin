@@ -6,7 +6,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import api from "../api";
 import userEvent from "@testing-library/user-event";
 import { act } from "react";
-import PostsPage from "../components/PostsPage";
+import PostsPage from "../components/Posts/PostsPage";
 import ErrorPage from "../components/ErrorPage";
 import PostProvider from "../components/PostProvider";
 vi.mock("../api");

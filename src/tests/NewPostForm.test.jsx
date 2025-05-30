@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, vi, expect } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { PostContext } from "../context/PostContext";
-import NewPostForm from "../components/NewPostForm";
+import NewPostForm from "../components/Posts/NewPostForm";
 
 // Mock `navigate`
 const mockNavigate = vi.fn();
