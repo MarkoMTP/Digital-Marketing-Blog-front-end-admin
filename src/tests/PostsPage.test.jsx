@@ -2,16 +2,16 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import LoginForm from "../components/LoginForm";
-import PostsPage from "../components/PostsPage";
+import PostsPage from "../components/Posts/PostsPage";
 import ErrorPage from "../components/ErrorPage";
 import App from "../components/App";
 import fetchPosts from "../middleware/fetchPosts";
 import userEvent from "@testing-library/user-event";
 import { act, use } from "react";
 import PostProvider from "../components/PostProvider";
-import PostPage from "../components/PostPage";
+import PostPage from "../components/Posts/PostPage.jsx";
 import { handleAddNewPost } from "../middleware/handleAddNewPost";
-import NewPostForm from "../components/NewPostForm";
+import NewPostForm from "../components/Posts/NewPostForm";
 
 // Mocking fetchPosts module
 vi.mock("../middleware/fetchPosts");
@@ -38,7 +38,7 @@ describe("Posts Page", () => {
     expect(screen.getByText(/Digital Marketing Blog/i)).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Stay ahead with the latest trends, strategies, and tips!"
+        /Stay ahead with the latest trends, strategies, and insights!/i
       )
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /logout/i })).toBeInTheDocument();
@@ -81,7 +81,7 @@ describe("Posts Page", () => {
     expect(screen.getByText(/Digital Marketing Blog/i)).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Stay ahead with the latest trends, strategies, and tips!"
+        "Stay ahead with the latest trends, strategies, and insights!"
       )
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /logout/i })).toBeInTheDocument();
@@ -140,7 +140,7 @@ describe("Posts Page", () => {
     expect(screen.getByText(/Digital Marketing Blog/i)).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Stay ahead with the latest trends, strategies, and tips!"
+        "Stay ahead with the latest trends, strategies, and insights!"
       )
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /logout/i })).toBeInTheDocument();
@@ -185,7 +185,7 @@ describe("Posts Page", () => {
     expect(screen.getByText(/Digital Marketing Blog/i)).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Stay ahead with the latest trends, strategies, and tips!"
+        "Stay ahead with the latest trends, strategies, and insights!"
       )
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /logout/i })).toBeInTheDocument();
