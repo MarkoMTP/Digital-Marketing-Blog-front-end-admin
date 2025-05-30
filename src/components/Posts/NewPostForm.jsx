@@ -42,13 +42,18 @@ function NewPostForm() {
           required
           className="input"
         />
-        <input
+        <textarea
           type="text"
           placeholder="Content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
-          className="input"
+          style={{
+            maxwidth: "100%",
+            width: "100%",
+            boxsizing: "border-box",
+            resize: "vertical",
+          }}
         />
         <select
           value={isPublished}
