@@ -1,85 +1,64 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
 import "../styles/LoginForm.css";
+import api from "../api";
 
-const LoginForm = () => {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleGoBack = () => {
-    navigate("/");
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post("/login", {
-        email,
-        password,
-      });
+      const response = await api.post("/login", { email, password });
 
       const token = response.data.token;
       if (token) {
-        localStorage.setItem("token", token);
+        await localStorage.setItem("token", token); // ✅ Store token
         navigate("/posts");
       } else {
-        const msg = "No token received";
-        navigate("/error", {
-          state: {
-            error: msg,
-          },
-        });
+        console.error("No token received!");
       }
-    } catch (err) {
-      console.log(err);
-      navigate("/error", {
-        state: {
-          error: err.response?.data,
-        },
-      });
+      navigate("/homepage");
+    } catch (error) {
+      alert("Invalid credentials");
     }
   };
+
+  const handleGoBack = () => navigate("/");
+
   return (
-    <div className="container">
-      <h2 className="heading">Login Form</h2>
-      <form onSubmit={handleSubmit} className="form">
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="input"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="input"
-        />
-        <button type="submit" className="button">
-          Login
+    <div className="login-page">
+      <div className="login-card">
+        <h2 className="login-heading">Welcome Back</h2>
+        <form onSubmit={handleSubmit} className="login-form">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="login-input"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="login-input"
+          />
+          <button type="submit" className="login-button">
+            Login
+          </button>
+        </form>
+        <button onClick={handleGoBack} className="go-back">
+          Go Back
         </button>
-      </form>
-      <button
-        onClick={handleGoBack}
-        style={{
-          marginTop: "5px",
-          padding: "12px 22px",
-          cursor: "pointer",
-          background: "red",
-          borderRadius: "10px",
-          border: "0px",
-        }}
-      >
-        Go back
-      </button>
+      </div>
     </div>
   );
-};
+}
 
 export default LoginForm;
