@@ -7,6 +7,7 @@ import PostPage from "./Posts/PostPage";
 import PostsPage from "./Posts/PostsPage";
 import RegisterForm from "./RegisterForm";
 import RegisterSuccess from "./RegSuccess";
+import DraftsPage from "./Posts/DraftsPage";
 
 const routes = [
   {
@@ -29,10 +30,7 @@ const routes = [
     path: "/error",
     element: <ErrorPage />,
   },
-  {
-    path: "/posts",
-    element: <PostsPage />,
-  },
+
   {
     path: "/posts/:postId",
     element: <PostPage />,
@@ -43,11 +41,16 @@ const routes = [
   },
   {
     path: "/homepage",
-    element: <EditPostForm />,
+    element: <PostsPage />,
   },
   {
     path: "/newPostForm",
     element: <NewPostForm />,
+  },
+
+  {
+    path: "/drafts",
+    element: <DraftsPage />,
   },
 ];
 

@@ -7,6 +7,8 @@ function Comment({
   setError,
   setPost,
   handleDeleteComment,
+  userId,
+  authorId,
 }) {
   return (
     <div style={styles.comment}>
@@ -14,20 +16,22 @@ function Comment({
       <div style={styles.footer}>
         <p style={styles.author}>@{author || "Unknown"}</p>
         <p style={styles.date}>{new Date(createdAt).toLocaleString()}</p>
-        <button
-          style={styles.deleteButton}
-          onMouseOver={(e) =>
-            (e.target.style.background = styles.deleteButtonHover.background)
-          }
-          onMouseOut={(e) =>
-            (e.target.style.background = styles.deleteButton.background)
-          }
-          onClick={() =>
-            handleDeleteComment(commentId, postId, setError, setPost)
-          }
-        >
-          Delete Comment
-        </button>
+        {userId === authorId && (
+          <button
+            style={styles.deleteButton}
+            onMouseOver={(e) =>
+              (e.target.style.background = styles.deleteButtonHover.background)
+            }
+            onMouseOut={(e) =>
+              (e.target.style.background = styles.deleteButton.background)
+            }
+            onClick={() =>
+              handleDeleteComment(commentId, postId, setError, setPost)
+            }
+          >
+            Delete Comment
+          </button>
+        )}
       </div>
     </div>
   );

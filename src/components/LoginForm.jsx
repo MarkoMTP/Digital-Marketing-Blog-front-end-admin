@@ -6,6 +6,7 @@ import api from "../api";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,13 +17,16 @@ function LoginForm() {
       const token = response.data.token;
       if (token) {
         await localStorage.setItem("token", token); // ✅ Store token
-        navigate("/posts");
+        navigate("/homepage");
       } else {
+        const message = "Invalid email or password.";
+        setErrorMsg(message);
         console.error("No token received!");
       }
-      navigate("/homepage");
     } catch (error) {
-      alert("Invalid credentials");
+      const message =
+        error.response?.data?.error || "Invalid email or password.";
+      setErrorMsg(message);
     }
   };
 
@@ -33,6 +37,7 @@ function LoginForm() {
       <div className="login-card">
         <h2 className="login-heading">Welcome Back</h2>
         <form onSubmit={handleSubmit} className="login-form">
+          {errorMsg && <p className="login-error">{errorMsg}</p>}
           <input
             type="email"
             placeholder="Email"

@@ -1,10 +1,10 @@
 import api from "../api";
 
-const fetchPosts = async (setPosts, setError, setLoading) => {
-  try {
-    const token = localStorage.getItem("token");
+const fetchDrafts = async (setPosts, setError, setLoading, userId) => {
+  const token = localStorage.getItem("token");
 
-    const response = await api.get("/posts", {
+  try {
+    const response = await api.get(`/${userId}/drafts`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -12,6 +12,7 @@ const fetchPosts = async (setPosts, setError, setLoading) => {
     setLoading(false);
 
     setPosts(response.data);
+    console.log(response);
   } catch (err) {
     setError(err.response?.data?.message);
   } finally {
@@ -19,4 +20,4 @@ const fetchPosts = async (setPosts, setError, setLoading) => {
   }
 };
 
-export default fetchPosts;
+export default fetchDrafts;

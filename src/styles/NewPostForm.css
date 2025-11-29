@@ -1,0 +1,135 @@
+/* ---------- CONTAINER ---------- */
+
+.new-post-container {
+  max-width: 700px;
+  margin: 2.5rem auto;
+  padding: 2rem 2.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.new-post-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #111827;
+  text-align: center;
+}
+
+/* ---------- FORM ---------- */
+
+.new-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
+}
+
+/* ---------- FIELD WRAPPER ---------- */
+
+.new-post-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.new-post-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* ---------- INPUT ---------- */
+
+.new-post-input,
+.new-post-textarea,
+.new-post-select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #f9fafb;
+  transition: border 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.new-post-input:focus,
+.new-post-textarea:focus,
+.new-post-select:focus {
+  border-color: #3b82f6;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  outline: none;
+}
+
+/* ---------- TEXTAREA ---------- */
+
+.new-post-textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* ---------- BUTTONS ---------- */
+
+.new-post-actions {
+  margin-top: 1rem;
+}
+
+.new-post-submit {
+  width: 100%;
+  padding: 0.9rem 1.3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: 0;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.new-post-submit:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+
+/* ---------- BACK BUTTON ---------- */
+
+.new-post-back {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.new-post-back-button {
+  padding: 0.8rem 1.4rem;
+  background: #6b7280;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.new-post-back-button:hover {
+  background: #4b5563;
+  transform: translateY(-2px);
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 600px) {
+  .new-post-container {
+    padding: 1.5rem;
+  }
+
+  .new-post-heading {
+    font-size: 1.7rem;
+  }
+
+  .new-post-submit {
+    font-size: 1rem;
+  }
+}

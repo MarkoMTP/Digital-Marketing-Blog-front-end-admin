@@ -1,134 +1,141 @@
+/* ---------- GENERAL LAYOUT ---------- */
+
 .page-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 85%;
-  margin: 4rem auto;
-  gap: 3rem;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  padding: 3.5rem;
-  border-radius: 1.2rem;
-  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.25);
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  background: #f7f8fa;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
+/* ---------- SIDEBAR ---------- */
+
 .sidebar {
-  width: 35%;
-  background-color: rgba(255, 255, 255, 0.12);
-  padding: 3rem;
-  border-radius: 1rem;
-  text-align: center;
+  background: #1f2937;
   color: white;
-  box-shadow: 0 5px 10px rgba(255, 255, 255, 0.2);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .title {
-  font-size: 2.4rem;
-  font-weight: bold;
-  color: white;
+  font-size: 1.6rem;
+  margin-bottom: 0;
 }
 
 .subtitle {
-  font-size: 1.4rem;
-  margin-top: 0.8rem;
-  opacity: 0.9;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  margin-top: -10px;
+  line-height: 1.4;
 }
 
-.primary-button {
-  background: #4caf50;
-  color: white;
+/* Buttons */
+
+.primary-button,
+.logoutButton {
+  background: #3b82f6;
   border: none;
-  padding: 12px 22px;
-  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  margin-top: 1rem;
-  margin-right: 0.3rem;
+  transition: background 0.2s;
+  color: white;
 }
 
 .primary-button:hover {
-  background: #45a049;
-  transform: scale(1.05);
+  background: #2563eb;
 }
 
 .logoutButton {
-  background-color: #ff3b30;
-  color: white;
-  border: none;
-  padding: 12px 22px;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  margin-top: 1rem;
+  background: #ef4444;
+  margin-top: auto;
 }
 
 .logoutButton:hover {
-  background-color: #d32f2f;
-  transform: scale(1.05);
+  background: #dc2626;
 }
 
+/* ---------- POSTS LIST ---------- */
+
 .posts-container {
-  width: 60%;
-  background-color: #f9f9f9;
-  padding: 2.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  padding: 2rem 3rem;
 }
 
 .heading {
   font-size: 2rem;
+  margin-bottom: 1.5rem;
   font-weight: bold;
-  color: #333;
-  margin-bottom: 1.2rem;
-}
-
-.post-preview {
-  background: white;
-  padding: 1.2rem;
-  border-radius: 10px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
-  margin-bottom: 1.2rem;
-}
-
-.post-preview:hover {
-  transform: scale(1.02);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-
-.post-title {
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.post-author {
-  font-size: 1.1rem;
-  color: #666;
-  margin-top: 0.5rem;
-}
-
-.no-posts {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #888;
-  text-align: center;
-  margin-top: 1.5rem;
 }
 
 .loading {
+  color: #555;
   font-size: 1.2rem;
-  font-weight: bold;
-  color: #ffd700;
   text-align: center;
 }
 
 .error {
   color: red;
+  font-size: 1.1rem;
   text-align: center;
-  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+.no-posts {
+  text-align: center;
+  margin-top: 2rem;
+  color: #666;
+}
+
+/* ---------- POST ITEM ---------- */
+
+.post-preview {
+  background: white;
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.post-preview:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.post-title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.post-author {
+  margin: 0.3rem 0 0.8rem 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.post-status {
+  font-size: 0.9rem;
   font-weight: bold;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 900px) {
+  .page-container {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .posts-container {
+    padding: 1.5rem;
+  }
 }

@@ -1,71 +1,81 @@
-/* Container with a glassmorphism effect that blends with the blue gradient site */
+/* ---------- CONTAINER ---------- */
 .container {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  padding: 1rem 1.4rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin: 1rem auto;
-}
-
-/* Heading styled to match the site's blue accents */
-.heading {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #2a5298;
-  margin-bottom: 1rem;
-  text-align: center;
-  font-family: "Poppins", sans-serif;
-}
-
-/* Textarea styling with focus effects and matching font */
-.textarea {
-  display: block;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 12px;
+  background: #ffffff;
+  padding: 2rem;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  max-width: 700px;
+  margin: 2rem auto;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ---------- HEADING ---------- */
+.heading {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #111827;
+}
+
+/* ---------- TEXTAREA ---------- */
+.textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 1rem;
   font-size: 1rem;
-  font-family: "Poppins", sans-serif;
-  resize: none;
-  margin-bottom: 1rem;
-  transition: border-color 0.3s ease;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  resize: vertical;
+  font-family: inherit;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
 }
 
 .textarea:focus {
-  border-color: #2a5298;
-  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
-/* Submit button styled with blue hues to blend with the site */
+/* ---------- SUBMIT BUTTON ---------- */
 .submit-button {
-  background-color: #2a5298;
-  color: #fff;
+  background: #3b82f6;
+  color: white;
   border: none;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-top: 1rem;
   cursor: pointer;
-  font-size: 16px;
-  font-family: "Poppins", sans-serif;
-  width: 100%;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background 0.2s, transform 0.15s;
 }
 
 .submit-button:hover {
-  background-color: #1e3c72;
+  background: #2563eb;
   transform: translateY(-2px);
 }
 
-.submit-button:active {
-  transform: translateY(0);
+/* ---------- ERROR TEXT ---------- */
+.error {
+  color: #ef4444;
+  font-size: 0.95rem;
+  margin-top: 0.8rem;
 }
 
-/* Error message styling */
-.error {
-  color: #e74c3c;
-  font-weight: 600;
-  margin-top: 10px;
-  text-align: center;
-  font-family: "Poppins", sans-serif;
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 600px) {
+  .container {
+    padding: 1.4rem;
+  }
+
+  .heading {
+    font-size: 1.4rem;
+  }
+
+  .textarea {
+    min-height: 100px;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
 }

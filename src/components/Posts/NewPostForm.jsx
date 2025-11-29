@@ -2,6 +2,7 @@ import { use, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PostContext } from "../../context/PostContext";
 import { handleAddNewPost } from "../../middleware/handleAddNewPost";
+import "../../styles/NewPostForm.css";
 function NewPostForm() {
   const { setPosts, setError, setLoading, setNewPostCounter } =
     useContext(PostContext); // use context
@@ -11,12 +12,12 @@ function NewPostForm() {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
-    navigate("/posts");
+    navigate("/homepage");
   };
 
   return (
-    <div className="container">
-      <h2 className="heading">New Post</h2>
+    <div className="new-post-container">
+      <h2 className="new-post-heading">Create a New Post</h2>
       <form
         data-testid="upload-post-form"
         onSubmit={(e) => {
@@ -32,7 +33,7 @@ function NewPostForm() {
             navigate
           );
         }}
-        className="form"
+        className="new-post-form"
       >
         <input
           type="text"
@@ -40,48 +41,32 @@ function NewPostForm() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-          className="input"
+          className="new-post-input"
         />
         <textarea
-          type="text"
           placeholder="Content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
-          style={{
-            maxwidth: "100%",
-            width: "100%",
-            boxsizing: "border-box",
-            resize: "vertical",
-          }}
+          className="new-post-textarea"
         />
         <select
           value={isPublished}
           onChange={(e) => setIsPublished(e.target.value === "true")}
           required
-          className="input"
+          className="new-post-select"
         >
           <option value="true">Published</option>
           <option value="false">Unpublished</option>
         </select>
 
-        <button type="submit" className="button">
-          Create New Post
+        <button type="submit" className="new-post-submit">
+          Create Post
         </button>
       </form>
 
-      <button
-        onClick={handleGoBack}
-        style={{
-          marginTop: "5px",
-          padding: "12px 22px",
-          cursor: "pointer",
-          background: "red",
-          borderRadius: "10px",
-          border: "0px",
-        }}
-      >
-        Go back
+      <button onClick={handleGoBack} className="new-post-back-button">
+        Go Back
       </button>
     </div>
   );

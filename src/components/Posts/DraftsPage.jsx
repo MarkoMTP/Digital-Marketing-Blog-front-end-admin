@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import fetchPosts from "../../middleware/fetchPosts";
 import logout from "../../middleware/logout";
 import { PostContext } from "../../context/PostContext";
 import { jwtDecode } from "jwt-decode";
 import "../../styles/PostsPage.css";
+import fetchDrafts from "../../middleware/fetchDrafts";
 
-function PostsPage() {
+function DraftsPage() {
   const {
     posts,
     setPosts,
@@ -32,8 +32,8 @@ function PostsPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchPosts(setPosts, setError, setLoading);
-  }, [setError, setPosts, newPostCounter, setLoading]);
+    fetchDrafts(setPosts, setError, setLoading, userId);
+  }, [setError, setPosts, newPostCounter, setLoading, userId]);
 
   const handleClick = async (id) => {
     await navigate(`/posts/${id}`);
@@ -46,8 +46,8 @@ function PostsPage() {
   if (loading && posts.length > 0)
     return <p className="loading">Loading posts...</p>;
   if (error) return <p className="error">{error}</p>;
-  const openDraftsPage = () => {
-    navigate("/drafts");
+  const openPostsPage = () => {
+    navigate("/homepage");
   };
   return (
     <div className="page-container">
@@ -61,8 +61,8 @@ function PostsPage() {
           ➕ Add New Post
         </button>
 
-        <button className="primary-button" onClick={openDraftsPage}>
-          📝 View Drafts
+        <button className="primary-button" onClick={openPostsPage}>
+          📝 View Published Posts
         </button>
 
         <button className="logoutButton" onClick={logout}>
@@ -99,4 +99,4 @@ function PostsPage() {
   );
 }
 
-export default PostsPage;
+export default DraftsPage;

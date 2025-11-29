@@ -93,10 +93,12 @@ function PostPage() {
           post.comments.map((comment) => (
             <Comment
               key={comment.id}
+              user={userId}
               commentId={comment.id}
               postId={post.id}
               content={comment.content}
               author={comment.author.userName}
+              authorId={comment.author.id}
               createdAt={comment.createdAt}
               setError={setError}
               setPost={setPost}
@@ -108,7 +110,7 @@ function PostPage() {
         )}
       </div>
 
-      <button onClick={() => navigate("/posts")} className="backButton">
+      <button onClick={() => navigate("/homepage")} className="backButton">
         Go back
       </button>
     </div>

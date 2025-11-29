@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/RegisterForm.css"; // Import CSS file
+import "../styles/RegisterForm.css";
 import api from "../api";
 
 function RegisterForm() {
@@ -22,72 +22,59 @@ function RegisterForm() {
       navigate("/registrationSuccess");
     } catch (error) {
       console.log(error);
-
       navigate("/error", {
-        state: {
-          error: error.response?.data,
-        },
+        state: { error: error.response?.data },
       });
     }
   };
-  const handleGoBack = () => {
-    navigate("/");
-  };
+
+  const handleGoBack = () => navigate("/");
 
   return (
-    <div className="container">
-      <h2 className="heading">Register</h2>
-      <form onSubmit={handleSubmit} className="form">
-        <input
-          type="text"
-          placeholder="Username"
-          value={userName}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          className="input"
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="input"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="input"
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-          className="input"
-        />
-        <button type="submit" className="button">
-          Submit
+    <div className="register-page">
+      <div className="register-card">
+        <h2 className="register-heading">Create Your Account</h2>
+        <form onSubmit={handleSubmit} className="register-form">
+          <input
+            type="text"
+            placeholder="Username"
+            value={userName}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            className="register-input"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="register-input"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="register-input"
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            className="register-input"
+          />
+          <button type="submit" className="register-button">
+            Register
+          </button>
+        </form>
+        <button onClick={handleGoBack} className="go-back">
+          Go Back
         </button>
-      </form>
-
-      <button
-        onClick={handleGoBack}
-        style={{
-          marginTop: "5px",
-          padding: "12px 22px",
-          cursor: "pointer",
-          background: "red",
-          borderRadius: "10px",
-          border: "0px",
-        }}
-      >
-        Go back
-      </button>
+      </div>
     </div>
   );
 }
