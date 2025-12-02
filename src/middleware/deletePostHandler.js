@@ -20,7 +20,7 @@ const handleDeletePost = async (userId, post, setError, navigate) => {
     });
 
     // Navigate to the posts page after successful deletion
-    navigate("/posts");
+    navigate("/homepage");
   } catch (error) {
     console.error("Error deleting post:", error);
     setError("An error occurred while deleting the post.");
