@@ -1,10 +1,10 @@
 import api from "../api";
 
-const fetchPosts = async (setPosts, setError, setLoading) => {
+const fetchPosts = async (setPosts, setError, setLoading, userId) => {
   try {
     const token = localStorage.getItem("token");
 
-    const response = await api.get("/posts", {
+    const response = await api.get(`/${userId}/posts`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
