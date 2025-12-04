@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PostContext } from "../../context/PostContext";
 import handleUpdatePost from "../../middleware/handleUpdatePost";
+import "../../styles/EditPostForm.css";
 
 function EditPostForm() {
   const {

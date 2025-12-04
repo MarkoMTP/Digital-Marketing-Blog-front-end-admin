@@ -46,6 +46,7 @@ function DraftsPage() {
   if (loading && posts.length > 0)
     return <p className="loading">Loading posts...</p>;
   if (error) return <p className="error">{error}</p>;
+
   const openPostsPage = () => {
     navigate("/homepage");
   };

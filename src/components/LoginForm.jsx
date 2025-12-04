@@ -16,7 +16,7 @@ function LoginForm() {
 
       const token = response.data.token;
       if (token) {
-        await localStorage.setItem("token", token); // ✅ Store token
+        await localStorage.setItem("token", token);
         navigate("/homepage");
       } else {
         const message = "Invalid email or password.";
