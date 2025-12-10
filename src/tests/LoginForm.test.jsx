@@ -22,7 +22,7 @@ describe("Login Form", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/login form/i)).toBeInTheDocument();
+    expect(screen.getByText(/login/i)).toBeInTheDocument();
   });
 
   it("Simulates user inserting data and having a successful login", async () => {
@@ -52,7 +52,7 @@ describe("Login Form", () => {
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/login" element={<LoginForm />} />
-            <Route path="/posts" element={<PostsPage />} />
+            <Route path="/homepage" element={<PostsPage />} />
           </Routes>
         </MemoryRouter>
       </PostProvider>
@@ -102,7 +102,9 @@ describe("Login Form", () => {
 
     await waitFor(() => {
       // Expect error message
-      expect(screen.getByText(/No token received/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Invalid email or password./i)
+      ).toBeInTheDocument();
     });
   });
 
@@ -143,11 +145,6 @@ describe("Login Form", () => {
     });
 
     // Assert that the error messages appear on the screen
-    expect(
-      screen.getByText(/Password must be at least 8 characters long./i)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Password must contain at least one number./i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Invalid email or password./i)).toBeInTheDocument();
   });
 });

@@ -49,10 +49,10 @@ describe("Register Form", () => {
       screen.getByPlaceholderText("Confirm Password"),
       "mypassword123"
     );
-    userEvent.click(screen.getByRole("button", { name: /submit/i }));
+    userEvent.click(screen.getByRole("button", { name: /register/i }));
 
     await act(async () => {
-      await userEvent.click(screen.getByRole("button", { name: /submit/i }));
+      await userEvent.click(screen.getByRole("button", { name: /register/i }));
     });
     expect(screen.getByText(/User Registered/i)).toBeInTheDocument();
   });
@@ -90,7 +90,7 @@ describe("Register Form", () => {
     );
 
     await act(async () => {
-      await userEvent.click(screen.getByRole("button", { name: /submit/i }));
+      await userEvent.click(screen.getByRole("button", { name: /register/i }));
     });
 
     expect(

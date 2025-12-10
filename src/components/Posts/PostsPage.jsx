@@ -32,8 +32,8 @@ function PostsPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchPosts(setPosts, setError, setLoading);
-  }, [setError, setPosts, newPostCounter, setLoading]);
+    fetchPosts(setPosts, setError, setLoading, userId);
+  }, [setError, setPosts, newPostCounter, setLoading, userId]);
 
   const handleClick = async (id) => {
     await navigate(`/posts/${id}`);

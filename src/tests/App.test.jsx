@@ -14,7 +14,9 @@ describe("Homepage", () => {
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByRole("heading").textContent).toMatch(/welcome/i);
+    expect(screen.getByRole("heading").textContent).toMatch(
+      /The Marketing Edit/i
+    );
   });
   it("Simulates user clicking on login button", async () => {
     render(
@@ -28,7 +30,7 @@ describe("Homepage", () => {
     await act(async () => {
       await userEvent.click(screen.getByRole("button", { name: /login/i }));
     });
-    expect(screen.getByText("Login Form")).toBeInTheDocument();
+    expect(screen.getByText("Login")).toBeInTheDocument();
   });
   it("Simulates user clicking on register button", async () => {
     render(

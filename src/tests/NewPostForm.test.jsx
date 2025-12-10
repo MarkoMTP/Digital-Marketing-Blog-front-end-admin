@@ -50,7 +50,7 @@ describe("NewPostForm Component", () => {
     expect(screen.getByPlaceholderText("Content")).toBeInTheDocument();
     expect(screen.getByRole("combobox")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /create new post/i })
+      screen.getByRole("button", { name: /create post/i })
     ).toBeInTheDocument();
   });
 
@@ -72,7 +72,7 @@ describe("NewPostForm Component", () => {
     const contentInput = screen.getByPlaceholderText("Content");
     const selectInput = screen.getByRole("combobox");
     const submitButton = screen.getByRole("button", {
-      name: /create new post/i,
+      name: /create post/i,
     });
 
     fireEvent.change(titleInput, { target: { value: "Test Title" } });
